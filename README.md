@@ -3,7 +3,7 @@
 This project is a clone of [Danbooru](https://danbooru.donmai.us/) using Rails, I use RSS Feed to get data.
  
 ## View
-![](https://i.imgur.com/jpeY2kG.gif)
+<img src="https://s7.ezgif.com/tmp/ezgif-7ed56677cfc6ed.gif" width="50%"/>
 
 ## Requirements
 
