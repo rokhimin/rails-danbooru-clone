@@ -1,24 +1,80 @@
-# README
+#### Readme
+# Rails Danbooru Clone
+This project is a clone of [Danbooru](https://danbooru.donmai.us/) using Rails, I use RSS Feed to get data.
+ 
+## View
+![](https://s3.gifyu.com/images/bb7RG.md.gif)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements
 
-Things you may want to cover:
+- **Ruby** – Version specified in `.ruby-version`.
+- **Rails** – Ensure the correct version is installed as defined in `Gemfile`.
+- **Database** – PostgreSQL or SQLite depending on configuration.
 
-* Ruby version
+## Installation
 
-* System dependencies
+1. **Clone the repository**:
 
-* Configuration
+   ```bash
+   git clone https://github.com/rokhimin/rails-danbooru-clone.git
+   ```
 
-* Database creation
+2. **Navigate to the project directory**:
 
-* Database initialization
+   ```bash
+   cd rails-danbooru-clone
+   ```
 
-* How to run the test suite
+3. **Install dependencies**:
 
-* Services (job queues, cache servers, search engines, etc.)
+   ```bash
+   bundle install
+   ```
 
-* Deployment instructions
+4. **Set up the database**:
 
-* ...
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed
+   ```
+
+## Usage
+
+1. **Start the Rails server**:
+
+   ```bash
+   rails server
+   ```
+
+2. **Access the application** via a web browser at `http://localhost:3000`.
+
+## Testing
+
+To run the test suite:
+
+```bash
+rails test
+```
+
+## Contribution
+
+1. **Fork the repository**.
+2. **Create a new feature branch**:
+   ```bash
+   git checkout -b new-feature
+   ```
+3. **Commit your changes**:
+   ```bash
+   git commit -m "Add new feature"
+   ```
+4. **Push to the branch**:
+   ```bash
+   git push origin new-feature
+   ```
+5. **Open a Pull Request**.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
