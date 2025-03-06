@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Rails Rssfeed Danbooru" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+    
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav class="navbar" id="sticky-navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <h1 class="fa-solid">Danbooru</h1>
+    </a>
+  </div>
+  
+  <div class="navbar-menu is-active" style="background-color: transparent;">
+    <!-- Navbar start section (kosong) untuk memberikan ruang di kiri -->
+    <div class="navbar-start"></div>
+    
+    <!-- Navbar center section dengan search bar -->
+    <div class="navbar-item is-flex is-justify-content-center" style="flex-grow: 1;">
+      <form id="search-form" action="/" method="get" onsubmit="return handleSearch()">
+        <div class="field has-addons">
+          <div class="control">
+            <input id="tag-search" class="input bg-transparent" type="text" placeholder="Search tags...">
+            <div id="autocomplete-results" class="autocomplete-results"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Navbar end section (kosong) untuk memberikan ruang di kanan -->
+    <div class="navbar-end"></div>
+  </div>
+</nav>
+    <%= yield %>
+    <footer class="footer bg-transparent">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Danbooru Clone</strong> by <a href="https://github.com/rokhimin">Rokhimin</a>.
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

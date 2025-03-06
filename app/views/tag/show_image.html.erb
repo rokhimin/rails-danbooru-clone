@@ -1,0 +1,105 @@
+
+<section class="section">
+  <div class="container">
+    <% if @error %>
+      <div class="notification is-danger has-text-centered">
+        <p><%= @error %></p>
+      </div>
+    <% else %>
+      <div class="card">
+        <div class="card-header">
+          <p class="card-header-title">
+            <%= @entry ? @entry[:title] : @title %>
+          </p>
+          <a href="javascript:history.back()" class="card-header-icon">
+            <span class="icon">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Back</span>
+          </a>
+        </div>
+        
+        <!-- Image tabs -->
+        <div class="tabs is-centered">
+          <ul>
+            <li class="is-active" id="sample-tab"><a onclick="showSample()">Sample</a></li>
+            <li id="full-tab"><a onclick="showFull()">Full Size</a></li>
+          </ul>
+        </div>
+        
+        <!-- Sample image (visible by default) -->
+        <div class="card-image" id="sample-image">
+          <figure class="image">
+            <img src="<%= @entry ? @entry[:sample_image] : @entry[:image] %>" alt="<%= @entry ? @entry[:title] : @title %>" class="has-max-width">
+          </figure>
+        </div>
+        
+        <!-- Full image (hidden by default) -->
+        <div class="card-image" id="full-image" style="display: none;">
+          <figure class="image">
+            <img src="<%= @entry ? @entry[:full_image] : @full_image_url %>" alt="<%= @entry ? @entry[:title] : @title %>" class="has-max-width">
+          </figure>
+        </div>
+        
+        <div class="card-content">
+            <div class="columns is-centered">
+                <div class="column is-two-fifths">
+          <div class="content">
+            <div class="field mt-5">
+              <a href="<%= @entry ? @entry[:full_image] : @full_image_url %>" class="button is-primary is-fullwidth" download>
+                <span class="icon"><i class="fas fa-download"></i></span>
+                <span>Download Image</span>
+              </a>
+            </div>
+            
+            <div class="field mt-2">
+              <a href="<%= @entry ? @entry[:link] : "https://danbooru.donmai.us/posts/#{params[:link]}" %>" class="button is-link is-fullwidth" target="_blank">
+                <span class="icon"><i class="fas fa-external-link-alt"></i></span>
+                <span>View Original Source</span>
+              </a>
+            </div>
+            
+            <div class="field mt-2">
+              <a href="/<%= @tag %>" class="button is-info is-fullwidth">
+                <span class="icon"><i class="fas fa-tags"></i></span>
+                <span>Back to "<%= @tag %>" Results</span>
+              </a>
+            </div>
+          </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<style>
+  .has-max-width {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .tabs li.is-active a {
+    border-bottom-color: #3273dc;
+    color: #3273dc;
+  }
+</style>
+
+<script>
+  function showSample() {
+    document.getElementById('sample-image').style.display = 'block';
+    document.getElementById('full-image').style.display = 'none';
+    document.getElementById('sample-tab').classList.add('is-active');
+    document.getElementById('full-tab').classList.remove('is-active');
+  }
+  
+  function showFull() {
+    document.getElementById('sample-image').style.display = 'none';
+    document.getElementById('full-image').style.display = 'block';
+    document.getElementById('sample-tab').classList.remove('is-active');
+    document.getElementById('full-tab').classList.add('is-active');
+  }
+</script>

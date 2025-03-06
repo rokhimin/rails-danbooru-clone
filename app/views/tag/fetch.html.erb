@@ -1,0 +1,119 @@
+<style>
+  .pagination {
+    margin-top: 3rem;
+  }
+  
+  .pagination-link.is-current {
+    background-color: #3273dc;
+    border-color: #3273dc;
+    color: white;
+  }
+  
+  .has-shadow {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .has-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .image.is-4by3 img {
+    object-fit: cover;
+  }
+</style>
+
+<section class="section">
+  <div class="container">
+    <div class="field">
+      <div class="content">  
+        <h1>Tags "<%= params[:tag] %>"</h1>
+      </div>
+    </div>
+
+    <% if @error %>
+      <div class="notification is-danger has-text-centered">
+        <p><%= @error %></p>
+      </div>
+    <% else %>
+      <div class="columns is-multiline is-mobile is-variable is-2">
+        <% @entries.each do |entry| %>
+          <div class="column is-6-mobile is-4-tablet is-3-desktop is-2-widescreen">
+            <div class="card h-100 has-shadow">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="<%= entry[:image] %>" alt="<%= entry[:title] %>" loading="lazy">
+                </figure>
+              </div>
+              <div class="card-content">
+  <p class="subtitle is-6 has-text-weight-medium mb-3" style="height: 3rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+    <%= entry[:title] %>
+  </p>
+<a href="/detail/<%= params[:tag] %>/<%= entry[:link] %>" class="button is-link is-fullwidth is-small">
+  <span class="icon"><i class="fas fa-external-link-alt"></i></span>
+  <span>Lihat Detail</span>
+</a>
+</div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <!-- Pagination -->
+      <nav class="pagination is-centered mt-5" role="navigation" aria-label="pagination">
+        <% if @page > 1 %>
+          <% if @page == 2 %>
+            <a href="/<%= params[:tag] %>" class="pagination-previous">Previous</a>
+          <% else %>
+            <a href="/<%= params[:tag] %>&page=<%= @page - 1 %>" class="pagination-previous">Previous</a>
+          <% end %>
+        <% else %>
+          <a class="pagination-previous" disabled>Previous</a>
+        <% end %>
+        
+        <% if @has_next_page %>
+          <a href="/<%= params[:tag] %>&page=<%= @page + 1 %>" class="pagination-next">Next</a>
+        <% else %>
+          <a class="pagination-next" disabled>Next</a>
+        <% end %>
+        
+        <ul class="pagination-list">
+          <!-- Halaman pertama -->
+          <% if @page > 3 %>
+            <li><a href="/<%= params[:tag] %>" class="pagination-link">1</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+          <% end %>
+          
+          <% start_page = [@page - 2, 1].max %>
+          <% end_page = @page + 2 %>
+          
+          <% (start_page..end_page).each do |page_num| %>
+            <% if page_num == @page %>
+              <li><a class="pagination-link is-current"><%= page_num %></a></li>
+            <% elsif page_num == 1 %>
+              <li><a href="/<%= params[:tag] %>" class="pagination-link"><%= page_num %></a></li>
+            <% else %>
+              <li><a href="/<%= params[:tag] %>&page=<%= page_num %>" class="pagination-link"><%= page_num %></a></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </nav>
+    <% end %>
+  </div>
+</section>
