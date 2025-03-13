@@ -1,15 +1,15 @@
 #### Readme
 # Rails Danbooru Clone
-This project is a clone of [Danbooru](https://danbooru.donmai.us/) using Rails, I use RSS Feed to get data.
- 
-## View
-<img src="https://i.imgur.com/kHNKuKK.gif" width="50%"/>
+This project is a clone of [Danbooru](https://danbooru.donmai.us/) using Rails.
 
 ## Requirements
 
 - **Ruby** – Version specified in `.ruby-version`.
 - **Rails** – Ensure the correct version is installed as defined in `Gemfile`.
-- **Database** – PostgreSQL or SQLite depending on configuration.
+
+## View
+![](https://i.imgur.com/qUQQMWh.png)
+![](https://i.imgur.com/6Ds6XAO.png)
 
 ## Installation
 

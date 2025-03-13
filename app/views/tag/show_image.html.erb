@@ -1,73 +1,107 @@
-
-<section class="section">
+<section class="section py-3">
   <div class="container">
     <% if @error %>
       <div class="notification is-danger has-text-centered">
         <p><%= @error %></p>
       </div>
     <% else %>
-      <div class="card">
-        <div class="card-header">
-          <p class="card-header-title">
-            <%= @entry ? @entry[:title] : @title %>
-          </p>
-          <a href="javascript:history.back()" class="card-header-icon">
-            <span class="icon">
-              <i class="fas fa-arrow-left"></i>
-            </span>
-            <span>Back</span>
-          </a>
+      <!-- Navigation breadcrumb -->
+      <nav class="breadcrumb has-arrow-separator mb-3" aria-label="breadcrumbs">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/<%= @tag %>"><%= @tag %></a></li>
+          <li class="is-active"><a href="#" aria-current="page">Post #<%= @entry[:post_id] %></a></li>
+        </ul>
+      </nav>
+      
+      <div class="columns">
+        <!-- Left column: Image display -->
+        <div class="column is-three-fifths">
+          <!-- Image tabs -->
+          <div class="tabs is-boxed is-small mb-2">
+            <ul>
+              <li class="is-active" id="sample-tab"><a onclick="showSample()">Sample</a></li>
+              <li id="full-tab"><a onclick="showFull()">Original</a></li>
+            </ul>
+          </div>
+          
+          <!-- Sample image (visible by default) -->
+          <div id="sample-image" class="box p-2">
+            <figure class="image">
+              <img src="<%= @entry ? @entry[:sample_image] : @entry[:image] %>" alt="<%= @entry ? @entry[:title] : @title %>" class="has-max-width">
+            </figure>
+          </div>
+          
+          <!-- Full image (hidden by default) -->
+          <div id="full-image" class="box p-2" style="display: none;">
+            <figure class="image">
+              <img src="<%= @entry ? @entry[:full_image] : @full_image_url %>" alt="<%= @entry ? @entry[:title] : @title %>" class="has-max-width">
+            </figure>
+          </div>
+          
         </div>
         
-        <!-- Image tabs -->
-        <div class="tabs is-centered">
-          <ul>
-            <li class="is-active" id="sample-tab"><a onclick="showSample()">Sample</a></li>
-            <li id="full-tab"><a onclick="showFull()">Full Size</a></li>
-          </ul>
-        </div>
-        
-        <!-- Sample image (visible by default) -->
-        <div class="card-image" id="sample-image">
-          <figure class="image">
-            <img src="<%= @entry ? @entry[:sample_image] : @entry[:image] %>" alt="<%= @entry ? @entry[:title] : @title %>" class="has-max-width">
-          </figure>
-        </div>
-        
-        <!-- Full image (hidden by default) -->
-        <div class="card-image" id="full-image" style="display: none;">
-          <figure class="image">
-            <img src="<%= @entry ? @entry[:full_image] : @full_image_url %>" alt="<%= @entry ? @entry[:title] : @title %>" class="has-max-width">
-          </figure>
-        </div>
-        
-        <div class="card-content">
-            <div class="columns is-centered">
-                <div class="column is-two-fifths">
-          <div class="content">
-            <div class="field mt-5">
-              <a href="<%= @entry ? @entry[:full_image] : @full_image_url %>" class="button is-primary is-fullwidth" download>
-                <span class="icon"><i class="fas fa-download"></i></span>
-                <span>Download Image</span>
-              </a>
-            </div>
-            
-            <div class="field mt-2">
-              <a href="<%= @entry ? @entry[:link] : "https://danbooru.donmai.us/posts/#{params[:link]}" %>" class="button is-link is-fullwidth" target="_blank">
-                <span class="icon"><i class="fas fa-external-link-alt"></i></span>
-                <span>View Original Source</span>
-              </a>
-            </div>
-            
-            <div class="field mt-2">
-              <a href="/<%= @tag %>" class="button is-info is-fullwidth">
-                <span class="icon"><i class="fas fa-tags"></i></span>
-                <span>Back to "<%= @tag %>" Results</span>
-              </a>
+        <!-- Right column: Tags and controls -->
+        <div class="column">
+          <!-- Post title -->
+          <h4 class="title is-4 mb-3"><%= @entry ? @entry[:title] : @title %></h4>
+          
+          <!-- Action buttons -->
+          <div class="buttons mb-3">
+            <a href="<%= @entry ? @entry[:full_image] : @full_image_url %>" class="button is-primary is-small" download>
+              <span class="icon is-small"><i class="fas fa-download"></i></span>
+              <span>Download</span>
+            </a>
+            <a href="<%= @entry ? @entry[:link] : "https://danbooru.donmai.us/posts/#{params[:link]}" %>" class="button is-link is-small" target="_blank">
+              <span class="icon is-small"><i class="fas fa-external-link-alt"></i></span>
+              <span>View Original</span>
+            </a>
+          </div>
+          
+          <!-- Artist section -->
+          <div class="box p-3 mb-3">
+            <h5 class="title is-6 mb-2">Artist</h5>
+            <div class="tags">
+              <% @entry[:artist].split(' ').each do |artist| %>
+                <a href="/<%= artist %>" class="tag is-primary is-light"><%= artist %></a>
+              <% end %>
             </div>
           </div>
-                </div>
+          
+          <!-- Tags section -->
+          <div class="box p-3">
+            <h5 class="title is-6 mb-2">Tags</h5>
+            <div class="tags are-small is-justify-content-flex-start">
+              <% @entry[:tag_general].split(' ').each do |tag| %>
+                <a href="/<%= tag %>" class="tag is-info is-light mb-1"><%= tag.gsub('_', ' ') %></a>
+              <% end %>
             </div>
+          </div>
+
+          <!-- Image info -->
+          <div class="box p-3 mt-3">
+            <div class="content">
+              <h5 class="title is-5 mb-2">Information</h5>
+              <div class="columns is-mobile is-multiline">
+                <div class="column is-half">
+                  <p><strong>ID:</strong> <%= @entry[:post_id] %></p>
+                </div>
+                <div class="column is-half">
+                  <p><strong>Posted:</strong> <time datetime="2023-01-01">2023-01-01</time></p>
+                </div>
+                <div class="column is-half">
+                  <p><strong>Size:</strong> 800 x 1200</p>
+                </div>
+                <div class="column is-half">
+                  <p><strong>Rating:</strong> Safe</p>
+                </div>
+                <div class="column is-full">
+                  <p><strong>Source:</strong> <a href="<%= @entry[:source] %>" target="_blank" class="is-size-7"><%= @entry[:source] %></a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     <% end %>
@@ -82,9 +116,29 @@
     display: block;
   }
   
-  .tabs li.is-active a {
-    border-bottom-color: #3273dc;
-    color: #3273dc;
+  .tags {
+    flex-wrap: wrap;
+  }
+  
+  .tags .tag {
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .box {
+    border-radius: 3px;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  }
+  
+  .breadcrumb ul {
+    border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 0.5rem;
+  }
+  
+  .tabs.is-boxed li.is-active a {
+    background-color: #f5f5f5;
+    border-color: #dbdbdb;
+    border-bottom-color: transparent !important;
   }
 </style>
 

@@ -23,18 +23,18 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
   </head>
 
   <body>
     <nav class="navbar" id="sticky-navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="/">
+    <a class="navbar-item" href="<%= root_path %>" onclick="location.reload();">
       <h1 class="fa-solid">Danbooru</h1>
     </a>
   </div>
   
   <div class="navbar-menu is-active" style="background-color: transparent;">
-    <!-- Navbar start section (kosong) untuk memberikan ruang di kiri -->
     <div class="navbar-start"></div>
     
     <!-- Navbar center section dengan search bar -->
@@ -42,14 +42,13 @@
       <form id="search-form" action="/" method="get" onsubmit="return handleSearch()">
         <div class="field has-addons">
           <div class="control">
-            <input id="tag-search" class="input bg-transparent" type="text" placeholder="Search tags...">
+            <input id="tag-search" class="input bg-transparent" type="search" placeholder="Search tags..." autocomplete="off">
             <div id="autocomplete-results" class="autocomplete-results"></div>
           </div>
         </div>
       </form>
     </div>
     
-    <!-- Navbar end section (kosong) untuk memberikan ruang di kanan -->
     <div class="navbar-end"></div>
   </div>
 </nav>
